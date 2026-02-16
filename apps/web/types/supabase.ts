@@ -23,7 +23,7 @@ export type Json =
 // ============================================================
 
 /** Tipos de plan disponibles */
-export type PlanType = 'free' | 'pro' | 'enterprise';
+export type PlanType = 'free' | 'trial' | 'pro' | 'enterprise';
 
 /** Roles de usuario dentro de una organización */
 export type UserRole = 'owner' | 'admin' | 'viewer';
@@ -402,6 +402,62 @@ export interface Database {
           }
         ];
       };
+
+      // ============================================================
+      // AUDIT_LOGS
+      // ============================================================
+      audit_logs: {
+        Row: {
+          id: string;
+          organization_id: string | null;
+          user_id: string | null;
+          action: 'create' | 'update' | 'delete' | 'login' | 'logout' | 'export';
+          resource_type: string;
+          resource_id: string | null;
+          changes: Json;
+          ip_address: string | null;
+          user_agent: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          organization_id?: string | null;
+          user_id?: string | null;
+          action: 'create' | 'update' | 'delete' | 'login' | 'logout' | 'export';
+          resource_type: string;
+          resource_id?: string | null;
+          changes?: Json;
+          ip_address?: string | null;
+          user_agent?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          organization_id?: string | null;
+          user_id?: string | null;
+          action?: 'create' | 'update' | 'delete' | 'login' | 'logout' | 'export';
+          resource_type?: string;
+          resource_id?: string | null;
+          changes?: Json;
+          ip_address?: string | null;
+          user_agent?: string | null;
+          created_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "audit_logs_organization_id_fkey";
+            columns: ["organization_id"];
+            referencedRelation: "organizations";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "audit_logs_user_id_fkey";
+            columns: ["user_id"];
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
     };
 
     // ============================================================
@@ -472,6 +528,7 @@ export type Agent = Tables<'agents'>;
 export type KnowledgeBase = Tables<'knowledge_base'>;
 export type Customer = Tables<'customers'>;
 export type Call = Tables<'calls'>;
+export type AuditLog = Tables<'audit_logs'>;
 
 // ============================================================
 // TIPOS DE RESPUESTA Y UTILIDADES
