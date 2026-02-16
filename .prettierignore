@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build outputs
+.next/
+dist/
+build/
+out/
+
+# Cache
+.cache/
+.turbo/
+
+# Tests
+coverage/
+
+# Misc
+*.min.js
+*.min.css
+.env*
+!.env.example
